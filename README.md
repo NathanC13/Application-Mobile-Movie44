@@ -1,6 +1,6 @@
 # Movie44
 
-# Utilisation
+# Utilisation de l'API themoviedb (TMDB) :
 
 - Clé d’API : 9ff2e7d040d16512b0607bf63215f567
 
