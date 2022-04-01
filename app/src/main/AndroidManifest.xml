@@ -24,6 +24,10 @@
             android:name=".Search"
             android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
+        <activity
+            android:name=".Results"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

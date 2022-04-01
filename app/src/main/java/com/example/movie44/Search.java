@@ -32,4 +32,10 @@ public class Search extends AppCompatActivity {
         spinner.setAdapter(ad);
     }
 
+    public void onClick2(View v){
+        Button b2 = findViewById(R.id.button2);
+        Intent i = new Intent(Search.this, Results.class);
+        startActivity(i);
+    }
+
 }
