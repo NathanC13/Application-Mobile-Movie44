@@ -10,6 +10,13 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.content.Intent;
+
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import java.util.ArrayList;
 
 public class Search extends AppCompatActivity {
 
@@ -18,5 +25,11 @@ public class Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_2);
 
+        Spinner spinner = (Spinner) findViewById(R.id.spinner2);
+        ArrayAdapter ad = ArrayAdapter.createFromResource(this,
+                R.array.planets_array, android.R.layout.simple_spinner_item);
+        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(ad);
     }
+
 }
