@@ -67,7 +67,7 @@
         app:layout_constraintTop_toBottomOf="@+id/checkBox2" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/textView65"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -88,7 +88,7 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/editTextNumberDecimal3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/textView65" />
 
     <EditText
         android:id="@+id/editTextNumberDecimal3"
