@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -37,6 +39,8 @@ public class Search extends AppCompatActivity {
     private ListView install;
     Spinner genre;
     private TextView nombre;
+    CheckBox pop;
+    Boolean is_cheked;
 
     private ArrayAdapter<String> aa;
     private ArrayAdapter<JsonElement> listeDesJsonElements;
@@ -46,14 +50,35 @@ public class Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_2);
 
-
+        pop = findViewById(R.id.pop);
         genre = findViewById(R.id.spinner2);
+        contenu = findViewById(R.id.editTextTextMultiLine3);
+        nombre = findViewById(R.id.editTextNumberDecimal3);
+
 
         aa = new ArrayAdapter<String>(Search.this, android.R.layout.simple_list_item_1);
         listeDesJsonElements = new ArrayAdapter<JsonElement>(Search.this, android.R.layout.simple_list_item_1);
 
-        contenu = findViewById(R.id.editTextTextMultiLine3);
-        nombre = findViewById(R.id.editTextNumberDecimal3);
+
+        pop.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    genre.setEnabled(false);
+                    contenu.setEnabled(false);
+                    is_cheked = true;
+                }else{
+                    genre.setEnabled(true);
+                    contenu.setEnabled(true);
+                    nombre.setEnabled(true);
+                    is_cheked = false;
+
+                }
+            }
+        });
+
+
+
 
         // récuperation des genres
         Ion.with(getApplicationContext()).load("https://api.themoviedb.org/3/genre/movie/list?api_key=9ff2e7d040d16512b0607bf63215f567").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
@@ -76,6 +101,7 @@ public class Search extends AppCompatActivity {
         Intent intent = new Intent(Search.this, Results.class);
         intent.putExtra("2", val2);
         intent.putExtra("3",val3);
+        intent.putExtra("check_pop",is_cheked);
         startActivity(intent);
     }
 

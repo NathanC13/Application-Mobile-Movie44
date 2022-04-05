@@ -29,6 +29,7 @@ public class Results extends AppCompatActivity {
 
     String str = "";
     String str2 = "";
+    Boolean pop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,9 @@ public class Results extends AppCompatActivity {
             if (intent2.hasExtra("3")){ // vérifie qu'une valeur est associée à la clé “edittext”
                 str2 = intent2.getStringExtra("3"); // on récupère la valeur associée à la clé
             }
+            if(intent2.hasExtra("check_pop")){
+                pop= intent2.getBooleanExtra("check_pop",false);
+            }
         }
 
         rechercherbtn = findViewById(R.id.button3);
@@ -56,7 +60,12 @@ public class Results extends AppCompatActivity {
         rechercherbtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                larecherche(view);
+                if(pop){
+                    larechercheParPopularite(view);
+                }else{
+                    larecherche(view);
+                }
+
             }
         });
 
@@ -91,6 +100,34 @@ public class Results extends AppCompatActivity {
         int resultat = Integer.parseInt(str2);
 
         Ion.with(v.getContext()).load("https://api.themoviedb.org/3/search/movie?api_key=9ff2e7d040d16512b0607bf63215f567&query="+str+"&language=fr-FR").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+
+            int i = 0;
+            @Override
+            public void onCompleted(Exception e, JsonObject result) {
+                for (JsonElement elem : result.getAsJsonArray("results")){
+                    if(i<resultat){
+                        aa.add(String.valueOf(elem.getAsJsonObject().get("original_title")).replaceAll("\"", ""));
+                        listeDesJsonElements.add(elem);
+                        i++;
+                    }
+                }
+                install.setAdapter(aa);
+            }
+        });
+    }
+
+    public void larechercheParPopularite(View v){
+
+        Intent intent2 = getIntent();
+
+        if (intent2 != null){
+            if (intent2.hasExtra("3")){ // vérifie qu'une valeur est associée à la clé “edittext”
+                str2 = intent2.getStringExtra("3"); // on récupère la valeur associée à la clé
+            }
+        }
+        int resultat = Integer.parseInt(str2);
+
+        Ion.with(v.getContext()).load("https://api.themoviedb.org/3/discover/movie?api_key=9ff2e7d040d16512b0607bf63215f567&language=fr-FR&sort_by=popularity.desc").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
 
             int i = 0;
             @Override
