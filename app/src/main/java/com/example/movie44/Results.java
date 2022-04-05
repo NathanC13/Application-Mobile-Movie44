@@ -97,23 +97,41 @@ public class Results extends AppCompatActivity {
             }
         }
 
-        int resultat = Integer.parseInt(str2);
+        if(str2.isEmpty()){
 
-        Ion.with(v.getContext()).load("https://api.themoviedb.org/3/search/movie?api_key=9ff2e7d040d16512b0607bf63215f567&query="+str+"&language=fr-FR").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+            Ion.with(v.getContext()).load("https://api.themoviedb.org/3/search/movie?api_key=9ff2e7d040d16512b0607bf63215f567&query="+str+"&language=fr-FR").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
 
-            int i = 0;
-            @Override
-            public void onCompleted(Exception e, JsonObject result) {
-                for (JsonElement elem : result.getAsJsonArray("results")){
-                    if(i<resultat){
-                        aa.add(String.valueOf(elem.getAsJsonObject().get("original_title")).replaceAll("\"", ""));
-                        listeDesJsonElements.add(elem);
-                        i++;
+                int i = 0;
+                @Override
+                public void onCompleted(Exception e, JsonObject result) {
+                    for (JsonElement elem : result.getAsJsonArray("results")){
+                            aa.add(String.valueOf(elem.getAsJsonObject().get("original_title")).replaceAll("\"", ""));
+                            listeDesJsonElements.add(elem);
                     }
+                    install.setAdapter(aa);
                 }
-                install.setAdapter(aa);
-            }
-        });
+            });
+        }else if(!str2.isEmpty()){
+            int resultat = Integer.parseInt(str2);
+
+            Ion.with(v.getContext()).load("https://api.themoviedb.org/3/search/movie?api_key=9ff2e7d040d16512b0607bf63215f567&query="+str+"&language=fr-FR").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+
+                int i = 0;
+                @Override
+                public void onCompleted(Exception e, JsonObject result) {
+                    for (JsonElement elem : result.getAsJsonArray("results")){
+                        if(i<resultat){
+                            aa.add(String.valueOf(elem.getAsJsonObject().get("original_title")).replaceAll("\"", ""));
+                            listeDesJsonElements.add(elem);
+                            i++;
+                        }
+                    }
+                    install.setAdapter(aa);
+                }
+            });
+        }
+
+
     }
 
     public void larechercheParPopularite(View v){
@@ -125,22 +143,43 @@ public class Results extends AppCompatActivity {
                 str2 = intent2.getStringExtra("3"); // on récupère la valeur associée à la clé
             }
         }
-        int resultat = Integer.parseInt(str2);
+        if(str2.isEmpty()){
 
-        Ion.with(v.getContext()).load("https://api.themoviedb.org/3/discover/movie?api_key=9ff2e7d040d16512b0607bf63215f567&language=fr-FR&sort_by=popularity.desc").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+            Ion.with(v.getContext()).load("https://api.themoviedb.org/3/discover/movie?api_key=9ff2e7d040d16512b0607bf63215f567&language=fr-FR&sort_by=popularity.desc").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
 
-            int i = 0;
-            @Override
-            public void onCompleted(Exception e, JsonObject result) {
-                for (JsonElement elem : result.getAsJsonArray("results")){
-                    if(i<resultat){
-                        aa.add(String.valueOf(elem.getAsJsonObject().get("original_title")).replaceAll("\"", ""));
-                        listeDesJsonElements.add(elem);
-                        i++;
+                int i = 0;
+                @Override
+                public void onCompleted(Exception e, JsonObject result) {
+                    for (JsonElement elem : result.getAsJsonArray("results")){
+
+                            aa.add(String.valueOf(elem.getAsJsonObject().get("original_title")).replaceAll("\"", ""));
+                            listeDesJsonElements.add(elem);
+
+
                     }
+                    install.setAdapter(aa);
                 }
-                install.setAdapter(aa);
-            }
-        });
+            });
+
+        }else if(!str2.isEmpty()){
+            int resultat = Integer.parseInt(str2);
+
+            Ion.with(v.getContext()).load("https://api.themoviedb.org/3/discover/movie?api_key=9ff2e7d040d16512b0607bf63215f567&language=fr-FR&sort_by=popularity.desc").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+
+                int i = 0;
+                @Override
+                public void onCompleted(Exception e, JsonObject result) {
+                    for (JsonElement elem : result.getAsJsonArray("results")){
+                        if(i<resultat){
+                            aa.add(String.valueOf(elem.getAsJsonObject().get("original_title")).replaceAll("\"", ""));
+                            listeDesJsonElements.add(elem);
+                            i++;
+                        }
+                    }
+                    install.setAdapter(aa);
+                }
+            });
+        }
+
     }
 }
