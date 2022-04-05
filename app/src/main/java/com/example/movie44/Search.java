@@ -22,6 +22,7 @@ import android.widget.Spinner;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -34,6 +35,7 @@ public class Search extends AppCompatActivity {
     private Button rechercherbtn;
     private TextView contenu;
     private ListView install;
+    Spinner genre;
 
     private ArrayAdapter<String> aa;
     private ArrayAdapter<JsonElement> listeDesJsonElements;
@@ -43,15 +45,25 @@ public class Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_2);
 
-        /*
-        Spinner spinner = (Spinner) findViewById(R.id.spinner2);
-        ArrayAdapter ad = ArrayAdapter.createFromResource(this,
-                R.array.planets_array, android.R.layout.simple_spinner_item);
-        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(ad);
-         */
+
+        genre = findViewById(R.id.spinner2);
+
+        aa = new ArrayAdapter<String>(Search.this, android.R.layout.simple_list_item_1);
+        listeDesJsonElements = new ArrayAdapter<JsonElement>(Search.this, android.R.layout.simple_list_item_1);
 
         contenu = findViewById(R.id.editTextTextMultiLine3);
+        // récuperation des genres
+        Ion.with(getApplicationContext()).load("https://api.themoviedb.org/3/genre/movie/list?api_key=9ff2e7d040d16512b0607bf63215f567").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+
+            @Override
+            public void onCompleted(Exception e, JsonObject result) {
+                for (JsonElement elem : result.getAsJsonArray("genres")){
+                    aa.add(String.valueOf(elem.getAsJsonObject().get("name")).replaceAll("\"",""));
+                    listeDesJsonElements.add(elem);
+                }
+            }
+        });
+        genre.setAdapter(aa);
     }
 
     public void onClick2(View v){
