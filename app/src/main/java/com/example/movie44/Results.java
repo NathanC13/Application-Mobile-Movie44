@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -58,7 +59,7 @@ public class Results extends AppCompatActivity {
         install.setOnItemClickListener ( new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent versSecondaire = new Intent(Results.this,Results.class);
+                Intent versSecondaire = new Intent(Results.this,DetailsFilm.class);
                 versSecondaire.putExtra("valeurInstallation", aa.getItem(i));
                 versSecondaire.putExtra("valeurInstallationAdresse", String.valueOf(listeDesJsonElements.getItem(i).getAsJsonObject().getAsJsonObject("adresse").get("voie")).replaceAll("\"","") + " " + String.valueOf(listeDesJsonElements.getItem(i).getAsJsonObject().getAsJsonObject("adresse").get("codePostal")).replaceAll("\"","") + " " + String.valueOf(listeDesJsonElements.getItem(i).getAsJsonObject().getAsJsonObject("adresse").get("commune")).replaceAll("\"",""));
                 versSecondaire.putExtra("valeurInstallationListe", (Parcelable) listeDesJsonElements);
@@ -77,16 +78,13 @@ public class Results extends AppCompatActivity {
                 str = intent2.getStringExtra("2"); // on récupère la valeur associée à la clé
             }
         }
-        Ion.with(v.getContext()).load("https://nosql-workshop.herokuapp.com/api/installations/search?query="+str).asJsonArray().setCallback(new FutureCallback<JsonArray>() {
+        Ion.with(v.getContext()).load("https://api.themoviedb.org/3/search/movie?api_key=9ff2e7d040d16512b0607bf63215f567&query="+str).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+
+            int i = 0;
             @Override
-            public void onCompleted(Exception e, JsonArray response) {
-
-                for (JsonElement elem: response
-                ) {
-                    aa.add(String.valueOf(elem.getAsJsonObject().get("nom")).replaceAll("\"",""));
-                    listeDesJsonElements.add(elem);
-
-                }
+            public void onCompleted(Exception e, JsonObject result) {
+                aa.add(String.valueOf(result.getAsJsonArray("results").get(i).getAsJsonObject().get("original_title")).replaceAll("\"",""));
+                listeDesJsonElements.add(result);
                 install.setAdapter(aa);
             }
         });
