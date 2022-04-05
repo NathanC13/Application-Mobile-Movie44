@@ -60,9 +60,11 @@ public class Results extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent versSecondaire = new Intent(Results.this,DetailsFilm.class);
-                versSecondaire.putExtra("valeurInstallation", aa.getItem(i));
-                versSecondaire.putExtra("valeurInstallationAdresse", String.valueOf(listeDesJsonElements.getItem(i).getAsJsonObject().getAsJsonObject("adresse").get("voie")).replaceAll("\"","") + " " + String.valueOf(listeDesJsonElements.getItem(i).getAsJsonObject().getAsJsonObject("adresse").get("codePostal")).replaceAll("\"","") + " " + String.valueOf(listeDesJsonElements.getItem(i).getAsJsonObject().getAsJsonObject("adresse").get("commune")).replaceAll("\"",""));
-                versSecondaire.putExtra("valeurInstallationListe", (Parcelable) listeDesJsonElements);
+                versSecondaire.putExtra("nom", aa.getItem(i));
+                versSecondaire.putExtra("description", String.valueOf(listeDesJsonElements.getItem(i).getAsJsonObject().get("overview")).replaceAll("\"",""));
+                versSecondaire.putExtra("realase", String.valueOf(listeDesJsonElements.getItem(i).getAsJsonObject().get("release_date")).replaceAll("\"",""));
+                versSecondaire.putExtra("id",String.valueOf(listeDesJsonElements.getItem(i).getAsJsonObject().get("id")).replaceAll("\"",""));
+                versSecondaire.putExtra("poster",String.valueOf(listeDesJsonElements.getItem(i).getAsJsonObject().get("poster_path")).replaceAll("\"",""));
                 startActivity(versSecondaire);
             }
 
@@ -78,7 +80,7 @@ public class Results extends AppCompatActivity {
                 str = intent2.getStringExtra("2"); // on récupère la valeur associée à la clé
             }
         }
-        Ion.with(v.getContext()).load("https://api.themoviedb.org/3/search/movie?api_key=9ff2e7d040d16512b0607bf63215f567&query="+str).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+        Ion.with(v.getContext()).load("https://api.themoviedb.org/3/search/movie?api_key=9ff2e7d040d16512b0607bf63215f567&query="+str+"&language=fr-FR").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
 
             @Override
             public void onCompleted(Exception e, JsonObject result) {
