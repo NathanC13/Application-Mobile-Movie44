@@ -80,11 +80,12 @@ public class Results extends AppCompatActivity {
         }
         Ion.with(v.getContext()).load("https://api.themoviedb.org/3/search/movie?api_key=9ff2e7d040d16512b0607bf63215f567&query="+str).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
 
-            int i = 0;
             @Override
             public void onCompleted(Exception e, JsonObject result) {
-                aa.add(String.valueOf(result.getAsJsonArray("results").get(i).getAsJsonObject().get("original_title")).replaceAll("\"",""));
-                listeDesJsonElements.add(result);
+                for (JsonElement elem : result.getAsJsonArray("results")){
+                    aa.add(String.valueOf(elem.getAsJsonObject().get("original_title")).replaceAll("\"",""));
+                    listeDesJsonElements.add(elem);
+                }
                 install.setAdapter(aa);
             }
         });
