@@ -36,6 +36,7 @@ public class Search extends AppCompatActivity {
     private TextView contenu;
     private ListView install;
     Spinner genre;
+    private TextView nombre;
 
     private ArrayAdapter<String> aa;
     private ArrayAdapter<JsonElement> listeDesJsonElements;
@@ -52,6 +53,8 @@ public class Search extends AppCompatActivity {
         listeDesJsonElements = new ArrayAdapter<JsonElement>(Search.this, android.R.layout.simple_list_item_1);
 
         contenu = findViewById(R.id.editTextTextMultiLine3);
+        nombre = findViewById(R.id.editTextNumberDecimal3);
+
         // récuperation des genres
         Ion.with(getApplicationContext()).load("https://api.themoviedb.org/3/genre/movie/list?api_key=9ff2e7d040d16512b0607bf63215f567").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
 
@@ -69,8 +72,10 @@ public class Search extends AppCompatActivity {
     public void onClick2(View v){
 
         String val2 = contenu.getText().toString();
+        String val3 = nombre.getText().toString();
         Intent intent = new Intent(Search.this, Results.class);
         intent.putExtra("2", val2);
+        intent.putExtra("3",val3);
         startActivity(intent);
     }
 

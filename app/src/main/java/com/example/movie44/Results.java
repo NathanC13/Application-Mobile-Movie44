@@ -28,6 +28,7 @@ public class Results extends AppCompatActivity {
     private ArrayAdapter<JsonElement> listeDesJsonElements;
 
     String str = "";
+    String str2 = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,9 @@ public class Results extends AppCompatActivity {
             // Le code pour récupérer les extras ira ici
             if (intent2.hasExtra("2")){ // vérifie qu'une valeur est associée à la clé “edittext”
                 str = intent2.getStringExtra("2"); // on récupère la valeur associée à la clé
+            }
+            if (intent2.hasExtra("3")){ // vérifie qu'une valeur est associée à la clé “edittext”
+                str2 = intent2.getStringExtra("3"); // on récupère la valeur associée à la clé
             }
         }
 
@@ -79,14 +83,24 @@ public class Results extends AppCompatActivity {
             if (intent2.hasExtra("2")){ // vérifie qu'une valeur est associée à la clé “edittext”
                 str = intent2.getStringExtra("2"); // on récupère la valeur associée à la clé
             }
+            if (intent2.hasExtra("3")){ // vérifie qu'une valeur est associée à la clé “edittext”
+                str2 = intent2.getStringExtra("3"); // on récupère la valeur associée à la clé
+            }
         }
+
+        int resultat = Integer.parseInt(str2);
+
         Ion.with(v.getContext()).load("https://api.themoviedb.org/3/search/movie?api_key=9ff2e7d040d16512b0607bf63215f567&query="+str+"&language=fr-FR").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
 
+            int i = 0;
             @Override
             public void onCompleted(Exception e, JsonObject result) {
                 for (JsonElement elem : result.getAsJsonArray("results")){
-                    aa.add(String.valueOf(elem.getAsJsonObject().get("original_title")).replaceAll("\"",""));
-                    listeDesJsonElements.add(elem);
+                    if(i<resultat){
+                        aa.add(String.valueOf(elem.getAsJsonObject().get("original_title")).replaceAll("\"", ""));
+                        listeDesJsonElements.add(elem);
+                        i++;
+                    }
                 }
                 install.setAdapter(aa);
             }
