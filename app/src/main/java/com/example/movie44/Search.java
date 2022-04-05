@@ -51,57 +51,15 @@ public class Search extends AppCompatActivity {
         spinner.setAdapter(ad);
          */
 
-        rechercherbtn = findViewById(R.id.button2);
         contenu = findViewById(R.id.editTextTextMultiLine3);
-        install = findViewById(R.id.installations);
-
-        aa = new ArrayAdapter<String>(Search.this, android.R.layout.simple_list_item_1);
-        listeDesJsonElements = new ArrayAdapter<JsonElement>(Search.this, android.R.layout.simple_list_item_1);
-
-        rechercherbtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                larecherche(view);
-            }
-        });
-
-        install.setOnItemClickListener ( new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent versSecondaire = new Intent(Search.this,Results.class);
-                versSecondaire.putExtra("valeurInstallation", aa.getItem(i));
-                versSecondaire.putExtra("valeurInstallationAdresse", String.valueOf(listeDesJsonElements.getItem(i).getAsJsonObject().getAsJsonObject("adresse").get("voie")).replaceAll("\"","") + " " + String.valueOf(listeDesJsonElements.getItem(i).getAsJsonObject().getAsJsonObject("adresse").get("codePostal")).replaceAll("\"","") + " " + String.valueOf(listeDesJsonElements.getItem(i).getAsJsonObject().getAsJsonObject("adresse").get("commune")).replaceAll("\"",""));
-                versSecondaire.putExtra("valeurInstallationListe", (Parcelable) listeDesJsonElements);
-                startActivity(versSecondaire);
-            }
-
-        });
     }
 
-    public void larecherche(View v){
-        Ion.with(v.getContext()).load("https://nosql-workshop.herokuapp.com/api/installations/search?query="+contenu.getText()).asJsonArray().setCallback(new FutureCallback<JsonArray>() {
-            @Override
-            public void onCompleted(Exception e, JsonArray response) {
-
-                for (JsonElement elem: response
-                ) {
-                    aa.add(String.valueOf(elem.getAsJsonObject().get("nom")).replaceAll("\"",""));
-                    listeDesJsonElements.add(elem);
-
-                }
-                install.setAdapter(aa);
-            }
-        });
-    }
-
-
-    /*
     public void onClick2(View v){
 
-        Button b2 = findViewById(R.id.button2);
-        Intent i = new Intent(Search.this, Results.class);
-        startActivity(i);
+        String val2 = contenu.getText().toString();
+        Intent intent = new Intent(Search.this, Results.class);
+        intent.putExtra("2", val2);
+        startActivity(intent);
     }
-    */
 
 }
