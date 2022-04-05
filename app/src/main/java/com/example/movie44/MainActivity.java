@@ -21,4 +21,6 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(MainActivity.this, Search.class);
         startActivity(i);
     }
+
+
 }
