@@ -32,6 +32,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+// Senconde activité permettant de rechercher des films en fonction de certains critères
 public class Search extends AppCompatActivity {
 
     private Button rechercherbtn;
@@ -59,7 +60,7 @@ public class Search extends AppCompatActivity {
         aa = new ArrayAdapter<String>(Search.this, android.R.layout.simple_list_item_1);
         listeDesJsonElements = new ArrayAdapter<JsonElement>(Search.this, android.R.layout.simple_list_item_1);
 
-
+        // Remplissage du spinner avec les genres des films de l'API
         pop.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -80,7 +81,7 @@ public class Search extends AppCompatActivity {
 
 
 
-        // récuperation des genres
+        // Récuperation des genres
         Ion.with(getApplicationContext()).load("https://api.themoviedb.org/3/genre/movie/list?api_key=9ff2e7d040d16512b0607bf63215f567").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
 
             @Override
@@ -94,6 +95,7 @@ public class Search extends AppCompatActivity {
         genre.setAdapter(aa);
     }
 
+    // Fonction permettant de se diriger vers l'activité Results une fois les paramètres de sélection rentrés avec un clic sur le bouton
     public void onClick2(View v){
 
         String val2 = contenu.getText().toString();

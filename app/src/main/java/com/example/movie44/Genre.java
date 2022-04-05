@@ -1,5 +1,6 @@
 package com.example.movie44;
 
+// Classe des genres des films pour pouvoir les ajouter danzs le spinner
 public class Genre {
 
     private String id;

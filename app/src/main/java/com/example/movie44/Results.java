@@ -18,6 +18,8 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+
+// Troisième activité permettant l'affichage de la liste des films correspondant aux critères de sélection.
 public class Results extends AppCompatActivity {
 
     private Button rechercherbtn;
@@ -36,6 +38,7 @@ public class Results extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_3);
 
+        // Récupération des paramètres de sélection rentrés sur l'activité précédente
         Intent intent2 = getIntent();
 
         if (intent2 != null){
@@ -57,6 +60,7 @@ public class Results extends AppCompatActivity {
         aa = new ArrayAdapter<String>(Results.this, android.R.layout.simple_list_item_1);
         listeDesJsonElements = new ArrayAdapter<JsonElement>(Results.this, android.R.layout.simple_list_item_1);
 
+        // Lors d'un clic sur le bouton : afficher la recherche, cela appelle les méthodes de recherche en fonction des critères
         rechercherbtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -69,6 +73,7 @@ public class Results extends AppCompatActivity {
             }
         });
 
+        // Listener permettant de lors d'un clic sur un film de la liste, afficher les détails de celui-ci dans une nouvelle activité (DetailsFilm)
         install.setOnItemClickListener ( new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -84,7 +89,10 @@ public class Results extends AppCompatActivity {
         });
     }
 
+    //Première fonction de recherche permettant la recherche selon les critères de sélection
     public void larecherche(View v){
+
+        // Récupération des paramètres de sélection rentrés sur l'activité précédente
         Intent intent2 = getIntent();
 
         if (intent2 != null){
@@ -97,8 +105,10 @@ public class Results extends AppCompatActivity {
             }
         }
 
+        //
         if(str2.isEmpty()){
 
+            // Cette fonction permet de parcourir le json de l'API selon le nom du film qu'à rentré l'utilisateur si le nombre de films souhaité n'est pas renseigné
             Ion.with(v.getContext()).load("https://api.themoviedb.org/3/search/movie?api_key=9ff2e7d040d16512b0607bf63215f567&query="+str+"&language=fr-FR").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
 
                 int i = 0;
@@ -114,6 +124,7 @@ public class Results extends AppCompatActivity {
         }else if(!str2.isEmpty()){
             int resultat = Integer.parseInt(str2);
 
+            // Cette fonction permet de parcourir le json de l'API selon le nom du film qu'à rentré l'utilisateur si le nombre de films souhaité n'est pas nul
             Ion.with(v.getContext()).load("https://api.themoviedb.org/3/search/movie?api_key=9ff2e7d040d16512b0607bf63215f567&query="+str+"&language=fr-FR").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
 
                 int i = 0;
@@ -134,6 +145,7 @@ public class Results extends AppCompatActivity {
 
     }
 
+    //Seconde fonction de recherche permettant d'afficher la liste des films les plus populaires
     public void larechercheParPopularite(View v){
 
         Intent intent2 = getIntent();
@@ -144,6 +156,8 @@ public class Results extends AppCompatActivity {
             }
         }
         if(str2.isEmpty()){
+
+            // Cette fonction permet de parcourir le json de l'API selon le nom du film qu'à rentré l'utilisateur si le nombre de films souhaité n'est pas renseigné
 
             Ion.with(v.getContext()).load("https://api.themoviedb.org/3/discover/movie?api_key=9ff2e7d040d16512b0607bf63215f567&language=fr-FR&sort_by=popularity.desc").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
 
@@ -163,6 +177,8 @@ public class Results extends AppCompatActivity {
 
         }else if(!str2.isEmpty()){
             int resultat = Integer.parseInt(str2);
+
+            // Cette fonction permet de parcourir le json de l'API selon le nom du film qu'à rentré l'utilisateur si le nombre de films souhaité n'est pas nul
 
             Ion.with(v.getContext()).load("https://api.themoviedb.org/3/discover/movie?api_key=9ff2e7d040d16512b0607bf63215f567&language=fr-FR&sort_by=popularity.desc").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
 

@@ -30,15 +30,11 @@ public class DetailsFilm extends AppCompatActivity {
     String id_film = "";
     String poster_film_path = "";
     String url_img = "https://image.tmdb.org/t/p/w500";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_4);
-
-
-
-
-
 
         titre= findViewById(R.id.titre);
         annee = findViewById(R.id.annee);
@@ -48,6 +44,7 @@ public class DetailsFilm extends AppCompatActivity {
 
         Intent intent2 = getIntent();
 
+        // Récupération des paramètres renseignés dans l'activité précédente (Results)
         if (intent2 != null){
             // Le code pour récupérer les extras ira ici
             if (intent2.hasExtra("nom")){ // vérifie qu'une valeur est associée à la clé “nom”
@@ -70,15 +67,11 @@ public class DetailsFilm extends AppCompatActivity {
             }
         }
 
-
         titre.setText(titre_film);
         description.setText(description_film);
         annee.setText(annee_film);
 
-
         Picasso.get().load(url_img + poster_film_path).into(poster);
-
-
 
     }
 
